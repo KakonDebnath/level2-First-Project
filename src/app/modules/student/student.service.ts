@@ -14,7 +14,6 @@ const getAllStudent = async () => {
 };
 
 // get single student by id
-
 const getSingleStudent = async (id: string) => {
   const result = await StudentModel.findOne({ id });
   return result;
