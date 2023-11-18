@@ -1,10 +1,5 @@
 import { Schema, model } from 'mongoose'
-import {
-  Guardian,
-  LocalGuardian,
-  Student,
-  UserName,
-} from './student/student.interface'
+import { Guardian, LocalGuardian, Student, UserName } from './student.interface'
 
 const userNameSchema = new Schema<UserName>({
   firstName: { type: String, required: true },
@@ -44,6 +39,4 @@ const studentSchema = new Schema<Student>({
   isActive: ['active', 'blocked'],
 })
 
-
-
-const Student = model<Student>("Student", studentSchema);
+export const StudentModel = model<Student>('Student', studentSchema)
