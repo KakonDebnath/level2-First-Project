@@ -10,13 +10,19 @@ const userNameSchema = new Schema<UserName>({
   firstName: {
     type: String,
     required: [true, 'First name is required'],
+    maxlength: 20,
+    trim: true,
   },
   middleName: {
     type: String,
+    maxlength: 20,
+    trim: true,
   },
   lastName: {
     type: String,
     required: [true, 'Last name is required'],
+    maxlength: 20,
+    trim: true,
   },
 });
 
@@ -32,6 +38,8 @@ const guardianSchema = new Schema<Guardian>({
   fatherContactNo: {
     type: String,
     required: true,
+    maxlength: 11,
+    trim: true,
   },
   motherName: {
     type: String,
@@ -44,6 +52,8 @@ const guardianSchema = new Schema<Guardian>({
   motherContactNo: {
     type: String,
     required: true,
+    maxlength: 11,
+    trim: true,
   },
 });
 
@@ -55,6 +65,8 @@ const localGuardianSchema = new Schema<LocalGuardian>({
   contactNo: {
     type: String,
     required: true,
+    maxlength: 11,
+    trim: true,
   },
   address: {
     type: String,
@@ -84,10 +96,14 @@ const studentSchema = new Schema<Student>({
   contactNo: {
     type: String,
     required: true,
+    maxlength: 11,
+    trim: true,
   },
   emergencyContactNo: {
     type: String,
     required: true,
+    maxlength: 11,
+    trim: true,
   },
   bloodGroup: {
     type: String,
