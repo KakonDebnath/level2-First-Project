@@ -87,6 +87,9 @@ const localGuardianSchema = new Schema<LocalGuardian>({
     type: String,
     required: true,
   },
+  occupation: {
+    type: String,
+  }
 });
 
 const studentSchema = new Schema<Student>({
