@@ -24,6 +24,7 @@ const LocalGuardianZodValidationSchema = z.object({
 
 const StudentZodValidationSchema = z.object({
   id: z.string(),
+  password: z.string().min(1, "Password cannot be empty").max(20, "password must be at least 20 characters"),
   name: UserNameZodValidationSchema,
   gender: z.enum(['male', 'female', 'other']),
   dateOfBirth: z.string().optional(),
@@ -37,6 +38,7 @@ const StudentZodValidationSchema = z.object({
   localGuardian: LocalGuardianZodValidationSchema,
   profileImg: z.string().optional(),
   isActive: z.enum(['active', 'blocked']).default('active'),
+  isDeleted: z.boolean().default(false),
 });
 
 export default StudentZodValidationSchema;

@@ -33,9 +33,16 @@ const getSingleStudent = async (id: string) => {
   const result = await Student.findOne({ id }); //build in static method
   return result;
 };
+// delete student by id
+
+const deleteStudent = async (id: string) => {
+  const result = await Student.updateOne({ id }, {isDeleted: true});
+  return result;
+}
 
 export const StudentServices = {
   createStudentIntoDB,
   getAllStudent,
   getSingleStudent,
+  deleteStudent,
 };

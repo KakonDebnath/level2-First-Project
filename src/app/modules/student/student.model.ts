@@ -1,5 +1,6 @@
 import { Schema, model } from 'mongoose';
 // import validator from 'validator';
+import bcrypt from 'bcrypt';
 import {
   TGuardian,
   TLocalGuardian,
@@ -8,6 +9,7 @@ import {
   StudentModel,
   TUserName,
 } from './student.interface';
+import config from '../../config';
 
 const userNameSchema = new Schema<TUserName>({
   firstName: {
@@ -101,6 +103,11 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     type: userNameSchema,
     required: true,
   },
+  password: {
+    type: String,
+    required: true,
+    maxLength: [20, 'Password cannot be more than 20 characters'],
+  },
   gender: {
     type: String,
     enum: ['male', 'female', 'other'],
@@ -158,6 +165,7 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
+  isDeleted: { type: Boolean, default: false}
 });
 
 // creating a instance  method
@@ -166,7 +174,30 @@ const studentSchema = new Schema<TStudent, StudentModel>({
 //   return existingUser;
 // };
 
+// pre save() middleware / hooks
+studentSchema.pre('save', async function (next) {
+  // console.log(this, "pre save data ");
+  // eslint-disable-next-line @typescript-eslint/no-this-alias
+  const user = this;
+  // hashing password and save into db
+  user.password = await bcrypt.hash(
+    user.password,
+    Number(config.bcrypt_salt_round),
+  );
+  next();
+});
 
+// Post save() middleware / hooks
+studentSchema.post('save', function (doc, next) {
+  doc.password = '';
+  next();
+});
+
+// // query middleware / hooks
+
+// studentSchema.pre('find', function (next) {
+//   console.log(this);
+// });
 // creating a static method
 studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
