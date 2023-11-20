@@ -4,7 +4,7 @@ import { Student } from './student.interface';
 // create a new student
 const createStudentIntoDB = async (studentData: Student) => {
   //build in static method
-  // const result = await StudentModel.create(student);
+  // const result = await StudentModel.create(studentData);
 
   // build in instance method
   const student = new StudentModel(studentData);

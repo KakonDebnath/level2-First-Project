@@ -22,8 +22,6 @@ const createStudent = async (req: Request, res: Response) => {
 
     // will call service function to send this data
     const result = await StudentServices.createStudentIntoDB(zodParseData);
-
-    // send response
     res.status(200).json({
       success: true,
       message: `Student created successfully`,
