@@ -165,7 +165,7 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     enum: ['active', 'blocked'],
     default: 'active',
   },
-  isDeleted: { type: Boolean, default: false}
+  isDeleted: { type: Boolean, default: false },
 });
 
 // creating a instance  method
@@ -195,9 +195,10 @@ studentSchema.post('save', function (doc, next) {
 
 // // query middleware / hooks
 
-// studentSchema.pre('find', function (next) {
-//   console.log(this);
-// });
+studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
 // creating a static method
 studentSchema.statics.isUserExists = async function (id: string) {
   const existingUser = await Student.findOne({ id });
