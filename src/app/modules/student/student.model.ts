@@ -166,6 +166,10 @@ const studentSchema = new Schema<TStudent, StudentModel>({
     default: 'active',
   },
   isDeleted: { type: Boolean, default: false },
+}, {
+  toJSON: {
+    virtuals: true, //for active virtual
+  }
 });
 
 // creating a instance  method
@@ -173,6 +177,11 @@ const studentSchema = new Schema<TStudent, StudentModel>({
 //   const existingUser = await Student.findOne({ id });
 //   return existingUser;
 // };
+
+// virtual system
+studentSchema.virtual('fullName').get(function () {
+  return `${this.name.firstName} ${this.name.middleName} ${this.name.lastName}`
+});
 
 // pre save() middleware / hooks
 studentSchema.pre('save', async function (next) {
@@ -196,6 +205,10 @@ studentSchema.post('save', function (doc, next) {
 // // query middleware / hooks
 
 studentSchema.pre('find', function (next) {
+  this.find({ isDeleted: { $ne: true } });
+  next();
+});
+studentSchema.pre('findOne', function (next) {
   this.find({ isDeleted: { $ne: true } });
   next();
 });

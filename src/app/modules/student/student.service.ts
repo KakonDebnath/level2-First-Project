@@ -25,6 +25,10 @@ const createStudentIntoDB = async (studentData: TStudent) => {
 // get all students from the database
 const getAllStudent = async () => {
   const result = await Student.find(); //build in static method
+
+  // const result = await Student.aggregate([
+  //   {$match: {}}  // pre("find ") cannot work with aggregate
+  // ])
   return result;
 };
 
